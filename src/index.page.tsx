@@ -5,11 +5,10 @@ export const layout = "layouts/base.tsx";
 export const title = "Programming Language News";
 
 export default ({ feeds }: Lume.Data<FeedsData>, h: Lume.Helpers) => {
+  const year = Temporal.Now.zonedDateTimeISO("UTC").year;
+
   const articles = feeds.sources.flatMap((source) => source.result.articles)
-    .filter((article) =>
-      article.date.toZonedDateTimeISO("UTC").year ==
-        Temporal.Now.zonedDateTimeISO("UTC").year
-    )
+    .filter((article) => article.date.toZonedDateTimeISO("UTC").year == year)
     .toSorted((a, b) => Temporal.Instant.compare(b.date, a.date));
 
   const articlesByYearMonth = Map.groupBy(
@@ -29,7 +28,8 @@ export default ({ feeds }: Lume.Data<FeedsData>, h: Lume.Helpers) => {
         <header>
           <h1>Programming Language News</h1>
           <p>
-            <a href={h.url("/sources/")}>View sources</a>
+            Viewing <strong>{year}</strong> articles for{" "}
+            <a href={h.url("/sources/")}>all sources</a>
           </p>
         </header>
         {articlesByYearMonth.entries().toArray().map((
@@ -48,7 +48,11 @@ export default ({ feeds }: Lume.Data<FeedsData>, h: Lume.Helpers) => {
               <article style={{ margin: "1.5em 0" }}>
                 <header>
                   <small>
-                    <strong>{article.source}</strong>
+                    <strong>
+                      <a href={h.url(`/source/${article.source}/`)}>
+                        {article.source}
+                      </a>
+                    </strong>
                   </small>
                   {" • "}
                   <small>
