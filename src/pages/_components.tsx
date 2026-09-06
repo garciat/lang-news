@@ -25,13 +25,14 @@ type ArticleListProps = {
 };
 
 export const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
-  const year = Temporal.Now.zonedDateTimeISO("UTC").year;
-
   const articlesByYearMonth = Map.groupBy(
-    articles.filter((article) =>
-      article.date.toZonedDateTimeISO("UTC").year == year
-    )
-      .toSorted((a, b) => Temporal.Instant.compare(b.date, a.date)),
+    articles
+      .filter(
+        (article) => article.date.toZonedDateTimeISO("UTC").year >= 2026,
+      )
+      .toSorted(
+        (a, b) => Temporal.Instant.compare(b.date, a.date),
+      ),
     (article) =>
       Intern.PlainYearMonth.from(
         article.date
