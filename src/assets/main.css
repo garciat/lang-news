@@ -13,15 +13,23 @@ html {
     sans-serif,
     Apple Color Emoji,
     Segoe UI Emoji;
-  font-size: 1.3rem;
-  font-weight: 350;
-  font-size: clamp(18px, 100vw / var(--width), 20px);
   line-height: 1.5;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
 }
 
 main {
   max-width: 720px;
-  margin: 0 auto;
+  padding: 0 15px;
 }
 
 a {
