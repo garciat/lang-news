@@ -22,14 +22,13 @@ body {
   padding: 0;
 }
 
-body {
-  display: flex;
-  justify-content: center;
-}
-
 main {
   max-width: 720px;
-  padding: 0 15px;
+  margin: 0 auto;
+
+  @media only screen and (max-width: 750px) {
+    margin: 0 15px;
+  }
 }
 
 a {
