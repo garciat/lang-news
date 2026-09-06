@@ -1,5 +1,7 @@
 import { helpers } from "deno-static/mod.ts";
 
+import cronstrue from "npm:cronstrue@3.24.0";
+
 import { SiteConfig } from "../config.ts";
 import { paths } from "../paths.ts";
 import { ArticlesFetchResult } from "../types.ts";
@@ -9,9 +11,12 @@ import { ArticleList } from "./_components.tsx";
 
 type HomePageProps = {
   feeds: ArticlesFetchResult;
+  updateCronExpr: string;
 };
 
-export const HomePage: React.FC<HomePageProps> = ({ feeds }) => {
+export const HomePage: React.FC<HomePageProps> = (
+  { feeds, updateCronExpr },
+) => {
   const articles = feeds.sources.flatMap((source) => source.result.articles);
 
   return (
@@ -25,10 +30,11 @@ export const HomePage: React.FC<HomePageProps> = ({ feeds }) => {
             <a href={helpers.url(paths.sources())}>sources</a>.
           </p>
           <p>
-            <small style={{ opacity: "0.5" }}>
+            <small style={{ opacity: "0.7" }}>
               This feed is updated{" "}
-              <abbr title="best-effort by free GitHub Actions">~hourly</abbr>.
-              Last update:{" "}
+              <a href="https://github.com/Garciat/lang-news/blob/main/.github/workflows/deploy.yml">
+                {cronstrue.toString(updateCronExpr).toLowerCase()}
+              </a>. Last update:{" "}
               <relative-time datetime={feeds.fetchedAt.toString()}>
                 {new Date(feeds.fetchedAt.epochMilliseconds).toUTCString()}
               </relative-time>
