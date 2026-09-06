@@ -8,11 +8,14 @@ import { ArticleStorageSchema } from "./types.ts";
 import { HomePage } from "./pages/home.tsx";
 import { SourcesPage } from "./pages/sources.tsx";
 import { SourcePage } from "./pages/source.tsx";
+import { readUpdateCronExpr } from "./data.ts";
 
 const feeds = await readFeeds(sources);
 
+const updateCronExpr = await readUpdateCronExpr();
+
 await site(() => ({
-  [index]: jsx(<HomePage feeds={feeds} />),
+  [index]: jsx(<HomePage feeds={feeds} updateCronExpr={updateCronExpr} />),
   [paths.slugs.sources]: {
     [index]: jsx(<SourcesPage feeds={feeds} />),
   },
