@@ -53,7 +53,8 @@ export const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
               {yearMonth.toPlainDate({ day: 1 })
                 .withCalendar("gregory")
                 .toPlainYearMonth()
-                .toLocaleString("en-US", { dateStyle: "full" })}
+                .toLocaleString("en-US", { dateStyle: "full" })}{" "}
+              <small>{articles.length} articles</small>
             </h3>
           </header>
           {articles.map((article) => (
