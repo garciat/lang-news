@@ -1,4 +1,4 @@
-import { directory, index, json, jsx, site, tree } from "deno-static/mod.ts";
+import { directory, index, json, jsx, site, treeMap } from "deno-static/mod.ts";
 
 import { SiteConfig, sources } from "./config.ts";
 import { readFeeds } from "./feeds.ts";
@@ -16,21 +16,18 @@ await site(() => ({
   [paths.slugs.sources]: {
     [index]: jsx(<SourcesPage feeds={feeds} />),
   },
-  [paths.slugs.source]: tree(
-    feeds.sources.map((
-      source,
-    ) => [
-      source.source.name,
-      {
-        [index]: jsx(
-          <SourcePage
-            key={source.source.name}
-            source={source.source}
-            articles={source.result.articles}
-          />,
-        ),
-      },
-    ]),
+  [paths.slugs.source]: treeMap(
+    feeds.sources,
+    (source) => source.source.name,
+    (source) => ({
+      [index]: jsx(
+        <SourcePage
+          key={source.source.name}
+          source={source.source}
+          articles={source.result.articles}
+        />,
+      ),
+    }),
   ),
   [SiteConfig.storagePath]: json(
     ArticleStorageSchema.encode({

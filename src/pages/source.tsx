@@ -6,7 +6,7 @@ import { SiteConfig } from "../config.ts";
 import { paths } from "../paths.ts";
 import { Article, ArticleSource } from "../types.ts";
 
-import { BaseLayout } from "./layouts/base.tsx";
+import { BaseLayout } from "./_layouts.tsx";
 
 type SourcePageProps = {
   source: ArticleSource;

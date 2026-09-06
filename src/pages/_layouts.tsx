@@ -1,6 +1,6 @@
 import { helpers } from "deno-static/mod.ts";
 
-import { paths } from "../../paths.ts";
+import { paths } from "../paths.ts";
 
 type BaseLayoutProps = {
   title: string;
