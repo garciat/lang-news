@@ -99,8 +99,8 @@ async function fetchFromSources(
   sources: ReadonlyArray<ArticleSource>,
 ): Promise<ArticlesFetchResult> {
   const results = await timed(Promise.all(
-    sources.map(fetchFromSource).map(async (promise) => {
-      const result = await timed(promise);
+    sources.map(async (source) => {
+      const result = await timed(fetchFromSource(source));
 
       console.log(
         `[fetch]`,
@@ -132,12 +132,14 @@ async function fetchFromSource(source: ArticleSource) {
     case "rss":
       return {
         source,
-        result: await rss(source),
+        result: await rss(source)
+          .catch((err) => failedResult(`uncaught exception: ${String(err)}`)),
       };
     case "atom":
       return {
         source,
-        result: await atom(source),
+        result: await atom(source)
+          .catch((err) => failedResult(`uncaught exception: ${String(err)}`)),
       };
   }
 }
@@ -170,7 +172,9 @@ async function rss(
     );
   }
 
-  const doc = XML.parse(await res.text());
+  const text = await res.text();
+
+  const doc = XML.parse(text);
 
   const feed = parseRssFeed(doc);
 
