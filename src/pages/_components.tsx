@@ -71,7 +71,10 @@ export const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
                   </small>
                   {" • "}
                   <small>
-                    <time>
+                    <time
+                      dateTime={article.date.toString()}
+                      title={article.date.toString()}
+                    >
                       {article.date.toZonedDateTimeISO("UTC")
                         .toLocaleString("en-GB", {
                           dateStyle: "short",
