@@ -44,48 +44,51 @@ export const ArticleList: React.FC<ArticleListProps> = ({ articles }) => {
 
   return (
     <div className="article-list">
-      {articlesByYearMonth.entries().toArray().map((
-        [yearMonth, articles],
-      ) => (
-        <section key={yearMonth.toString()}>
-          <header>
-            <h3>
-              {yearMonth.toPlainDate({ day: 1 })
-                .withCalendar("gregory")
-                .toPlainYearMonth()
-                .toLocaleString("en-US", { dateStyle: "full" })}{" "}
-              <small>{articles.length} articles</small>
-            </h3>
-          </header>
-          {articles.map((article) => (
-            <article key={article.guid} style={{ margin: "1.5em 0" }}>
-              <header>
-                <small>
-                  <strong>
-                    <a href={helpers.url(paths.source(article.source))}>
-                      {article.source}
-                      {" ↗"}
-                    </a>
-                  </strong>
-                </small>
-                {" • "}
-                <small>
-                  <time>
-                    {article.date.toZonedDateTimeISO(
-                      "UTC",
-                    ).toPlainDate().toString()}
-                  </time>
-                </small>
-              </header>
-              <div>
-                <a href={article.link.toString()} rel="nofollow">
-                  {article.title}
-                </a>
-              </div>
-            </article>
-          ))}
-        </section>
-      ))}
+      {articlesByYearMonth
+        .entries()
+        .toArray()
+        .map(([yearMonth, articles]) => (
+          <section key={yearMonth.toString()}>
+            <header>
+              <h3>
+                {yearMonth.toPlainDate({ day: 1 })
+                  .withCalendar("gregory")
+                  .toPlainYearMonth()
+                  .toLocaleString("en-US", { dateStyle: "full" })}{" "}
+                <small>{articles.length} articles</small>
+              </h3>
+            </header>
+            {articles.map((article) => (
+              <article key={article.guid} style={{ margin: "1.5em 0" }}>
+                <header>
+                  <small>
+                    <strong>
+                      <a href={helpers.url(paths.source(article.source))}>
+                        {article.source}
+                        {" ↗"}
+                      </a>
+                    </strong>
+                  </small>
+                  {" • "}
+                  <small>
+                    <time>
+                      {article.date.toZonedDateTimeISO("UTC")
+                        .toLocaleString("en-GB", {
+                          dateStyle: "short",
+                          timeStyle: "short",
+                        })}
+                    </time>
+                  </small>
+                </header>
+                <div>
+                  <a href={article.link.toString()} rel="nofollow">
+                    {article.title}
+                  </a>
+                </div>
+              </article>
+            ))}
+          </section>
+        ))}
     </div>
   );
 };
