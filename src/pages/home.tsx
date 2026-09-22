@@ -37,7 +37,7 @@ export const HomePage: React.FC<HomePageProps> = (
               </a>. Last update:{" "}
               <relative-time datetime={feeds.fetchedAt.toString()}>
                 {new Date(feeds.fetchedAt.epochMilliseconds).toUTCString()}
-              </relative-time>
+              </relative-time>. <a href={helpers.url("/")}>Refresh now</a>
             </small>
           </p>
         </header>
