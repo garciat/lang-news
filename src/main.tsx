@@ -1,6 +1,6 @@
 import { directory, index, json, jsx, site, treeMap } from "deno-static/mod.ts";
 
-import { SiteConfig, sources } from "./config.ts";
+import { sources } from "./config.ts";
 import { readFeeds } from "./feeds.ts";
 import { paths } from "./paths.ts";
 import { ArticleStorageSchema } from "./types.ts";
@@ -32,7 +32,7 @@ await site(() => ({
       ),
     }),
   ),
-  [SiteConfig.storagePath]: json(
+  [paths.slugs.storage]: json(
     ArticleStorageSchema.encode({
       version: 2,
       result: feeds,

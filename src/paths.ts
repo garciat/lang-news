@@ -3,6 +3,7 @@ export const paths = {
     sources: "sources",
     source: "source",
     assets: "assets",
+    storage: "data.json",
   } as const,
   index() {
     return "/" as const;
@@ -15,5 +16,8 @@ export const paths = {
   },
   asset(path: `/${string}`) {
     return `/${this.slugs.assets}${path}` as const;
+  },
+  storage() {
+    return `/${this.slugs.storage}` as const;
   },
 } as const;

@@ -1,6 +1,8 @@
 import * as XML from "@std/xml";
 import * as zod from "@zod/zod";
 
+import { helpers } from "deno-static/mod.ts";
+
 import { parseRssFeed } from "lib/rss.ts";
 import { parseAtomFeed } from "lib/atom.ts";
 import { timed } from "lib/timed.ts";
@@ -11,13 +13,13 @@ import {
   ArticleSourceResult,
   ArticleStorageSchema,
 } from "./types.ts";
-import { SiteConfig } from "./config.ts";
+import { paths } from "./paths.ts";
 
 export async function readFeeds(
   sources: ReadonlyArray<ArticleSource>,
 ): Promise<ArticlesFetchResult> {
   const storage = await fetchFromStorage(
-    new URL(SiteConfig.storagePath, SiteConfig.ghPagesUrl),
+    new URL(helpers.url(paths.storage(), true)),
   );
 
   const current = await fetchFromSources(sources);
@@ -71,7 +73,15 @@ function mergeFetchResults(
 async function fetchFromStorage(
   url: URL,
 ): Promise<ArticlesFetchResult | undefined> {
-  const res = await fetch(url);
+  const res = await fetch(url).catch((err) => {
+    console.warn("ignoring storage: fetch failed:", err);
+    return undefined;
+  });
+
+  if (!res) {
+    return undefined;
+  }
+
   const body = await res.json();
 
   const storage = ArticleStorageSchema.safeDecode(body);
