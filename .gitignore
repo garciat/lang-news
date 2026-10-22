@@ -1,0 +1,14 @@
+# Lume build output
+dist/
+_site/
+
+# Deno cache
+.deno/
+
+# Generated source content
+src/generated/
+src/_data/news_meta.json
+
+# OS files
+.DS_Store
+Thumbs.db
